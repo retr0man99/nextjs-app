@@ -38,3 +38,11 @@ jobs:
       run: |
         docker build -t retr0man99/nextjs-app:latest .
         docker push retr0man99/nextjs-app:latest
+    
+    - name: Trigger Deployment if successful
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: deployment
+          client-payload: '{"component": "nextjs-app"}'
