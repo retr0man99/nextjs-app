@@ -27,3 +27,14 @@ jobs:
 
     - name: Run Unit Tests
       run: npm test
+    
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t retr0man99/nextjs-app:latest .
+        docker push retr0man99/nextjs-app:latest
